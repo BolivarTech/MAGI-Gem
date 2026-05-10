@@ -56,8 +56,8 @@ If the user provided files, include their contents (or relevant excerpts) in the
 ### Step 3: Launch the three agents
 
 **Model selection:** The default model for all agents is **pro** (mapped to gemini-2.5-pro).
-Valid short names: `pro`, `flash`, `flash-lite`. If the user explicitly requests
-a different model (e.g., "use flash", "use flash-lite"), use that short name.
+Valid short names: `pro`, `flash`, `lite`. If the user explicitly requests
+a different model (e.g., "use flash", "use lite"), use that short name.
 
 **Parallel mode (preferred):** Use the `run_shell_command` tool to execute the Python orchestrator.
 The orchestrator launches all three agents in parallel, applies timeouts, validates

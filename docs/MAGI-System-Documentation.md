@@ -159,7 +159,7 @@ The design prioritizes **parallel execution** via `gemini -p` using `asyncio.cre
 
 Key orchestrator features:
 - **Structured Outputs**: Uses `schema.json` injected into the prompt to guarantee structural integrity.
-- **Model selection**: `--model` flag (mapped to gemini-2.5-pro/flash-lite) selects the LLM for all agents.
+- **Model selection**: `--model` flag (mapped to gemini-2.5-pro/lite) selects the LLM for all agents.
 - **CLI Authentication**: Leverages the user's existing authenticated session in Gemini CLI.
 - **Graceful degradation**: If one agent fails, synthesis proceeds with the remaining two.
 
