@@ -255,7 +255,14 @@ async def run_orchestrator(
             successful.append(result)
 
     if len(successful) < 2:
-        raise RuntimeError(f"Only {len(successful)} agent(s) succeeded.")
+        error_msgs = []
+        for name, res in zip(tasks.keys(), results):
+            if isinstance(res, BaseException):
+                error_msgs.append(f"[{name}] {res}")
+        details = "\n".join(error_msgs)
+        raise RuntimeError(
+            f"Only {len(successful)} agent(s) succeeded. Errors:\n{details}"
+        )
 
     consensus = determine_consensus(successful)
     report: dict[str, Any] = {"agents": successful, "consensus": consensus}
