@@ -52,7 +52,11 @@ The key insight is that **disagreement between agents is a feature, not a failur
 git clone https://github.com/BolivarTech/MAGI-Gem.git
 
 # 2. Install the extension
+# Option A: Only for the current workspace
 gemini skills install ./MAGI-Gem --scope workspace
+
+# Option B: Globally for all projects (User scope)
+gemini skills install ./MAGI-Gem --scope user
 
 # 3. Reload Gemini CLI skills
 # Inside your interactive gemini session:
