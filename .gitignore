@@ -11,6 +11,7 @@ GEMINI.md
 # Environment & Logs
 .env
 .env.*
+!.env.example
 *.log
 magi-run-*/
 
