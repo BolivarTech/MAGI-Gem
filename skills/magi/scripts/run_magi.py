@@ -111,7 +111,7 @@ async def launch_agent(
     cmd = (
         f'gemini --model "{model_id}" '
         f'-p "Respond following the provided instructions and schema." '
-        f'--output-format json -'
+        f"--output-format json -"
     )
     proc = await asyncio.create_subprocess_shell(
         cmd,
