@@ -11,24 +11,33 @@ _BANNER_WIDTH: int = 52
 _BANNER_INNER: int = _BANNER_WIDTH - 2
 _FINDING_MARKER_WIDTH: int = 5
 _FINDING_SEVERITY_WIDTH: int = 14
-_SEVERITY_MARKERS: dict[str, str] = {"critical": "[!!!]", "warning": "[!!]", "info": "[i]"}
+_SEVERITY_MARKERS: dict[str, str] = {
+    "critical": "[!!!]",
+    "warning": "[!!]",
+    "info": "[i]",
+}
 _ELLIPSIS: str = "..."
+
 
 def _agent_title(agent_name: str) -> tuple[str, str]:
     return AGENT_TITLES.get(agent_name, (agent_name.capitalize(), "Agent"))
+
 
 def _agent_label(agent_name: str) -> str:
     name, title = _agent_title(agent_name)
     return f"{name} ({title}):"
 
+
 def _fit_content(content: str, width: int, *, preserve_suffix: str = "") -> str:
-    if len(content) <= width: return content
+    if len(content) <= width:
+        return content
     if not preserve_suffix or len(preserve_suffix) + len(_ELLIPSIS) >= width:
         cutoff = max(1, width - len(_ELLIPSIS))
         return content[:cutoff] + _ELLIPSIS
     prefix_budget = width - len(_ELLIPSIS) - len(preserve_suffix)
     prefix_source = content[: -len(preserve_suffix)]
     return prefix_source[:prefix_budget] + _ELLIPSIS + preserve_suffix
+
 
 def format_banner(agents: list[dict[str, Any]], consensus: dict[str, Any]) -> str:
     labels = [_agent_label(a["agent"]) for a in agents]
@@ -52,6 +61,7 @@ def format_banner(agents: list[dict[str, Any]], consensus: dict[str, Any]) -> st
     lines.append(border)
     return "\n".join(lines)
 
+
 def _format_finding_line(finding: dict[str, Any]) -> str:
     severity = finding["severity"]
     marker = _SEVERITY_MARKERS.get(severity, "[?]")
@@ -59,11 +69,13 @@ def _format_finding_line(finding: dict[str, Any]) -> str:
     sources = ", ".join(finding.get("sources", ["unknown"]))
     return f"{marker:<{_FINDING_MARKER_WIDTH}} {severity_label:<{_FINDING_SEVERITY_WIDTH}} {finding['title']} _(from {sources})_"
 
+
 def format_report(agents: list[dict[str, Any]], consensus: dict[str, Any]) -> str:
     sections: list[str] = [format_banner(agents, consensus), ""]
     if consensus["findings"]:
         sections.append("## Key Findings")
-        for f in consensus["findings"]: sections.append(_format_finding_line(f))
+        for f in consensus["findings"]:
+            sections.append(_format_finding_line(f))
         sections.append("")
     if consensus["dissent"]:
         sections.append("## Dissenting Opinion")

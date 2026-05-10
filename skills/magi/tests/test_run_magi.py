@@ -5,10 +5,6 @@
 
 from __future__ import annotations
 
-import asyncio
-import os
-import sys
-from typing import Any
 from unittest.mock import patch
 
 import pytest
@@ -80,6 +76,7 @@ class TestParseArgs:
 
     def test_keep_runs_zero_rejected(self):
         from run_magi import parse_args
+
         with pytest.raises(SystemExit):
             parse_args(["code-review", "input.py", "--keep-runs", "0"])
 
@@ -103,7 +100,9 @@ class TestRunOrchestrator:
                 "recommendation": "Merge",
             }
 
-        async def mock_launch(agent_name, agents_dir, prompt, output_dir, timeout, model="opus"):
+        async def mock_launch(
+            agent_name, agents_dir, prompt, output_dir, timeout, model="opus"
+        ):
             return agent_results[agent_name]
 
         with patch("run_magi.launch_agent", side_effect=mock_launch):
@@ -121,7 +120,9 @@ class TestRunOrchestrator:
     async def test_one_agent_fails_degraded_mode(self, tmp_path):
         from run_magi import run_orchestrator
 
-        async def mock_launch(agent_name, agents_dir, prompt, output_dir, timeout, model="opus"):
+        async def mock_launch(
+            agent_name, agents_dir, prompt, output_dir, timeout, model="opus"
+        ):
             if agent_name == "caspar":
                 raise TimeoutError(f"Agent {agent_name} timed out")
             return {

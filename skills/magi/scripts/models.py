@@ -1,6 +1,3 @@
-import os
-import json
-
 # Minimal models.py for 1:1 migration
 MODE_DEFAULT_MODELS = {
     "code-review": "opus",
@@ -15,6 +12,7 @@ MODEL_IDS = {
 }
 
 VALID_MODELS = list(MODEL_IDS.keys())
+
 
 def resolve_model(model_name: str) -> str:
     return MODEL_IDS.get(model_name, MODEL_IDS["opus"])

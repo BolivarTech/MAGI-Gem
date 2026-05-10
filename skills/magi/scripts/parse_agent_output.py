@@ -1,7 +1,6 @@
 import json
 import os
 import re
-import sys
 
 # centralize size limit here too
 MAX_INPUT_FILE_SIZE = 10 * 1024 * 1024
@@ -9,17 +8,19 @@ MAX_INPUT_FILE_SIZE = 10 * 1024 * 1024
 _FENCE_START = re.compile(r"^```(?:json)?\s*\n?", re.IGNORECASE)
 _FENCE_END = re.compile(r"\n?```\s*$")
 
+
 def _strip_code_fences(text: str) -> str:
     text = text.strip()
     text = _FENCE_START.sub("", text)
     text = _FENCE_END.sub("", text)
     return text.strip()
 
+
 def _extract_text(data: object) -> str:
     # Gemini CLI output format: {"response": "...", "stats": {...}}
     if isinstance(data, dict) and "response" in data:
         return str(data["response"])
-    
+
     # Fallback to original Claude shapes if needed
     if isinstance(data, dict) and "result" in data:
         return str(data["result"])
@@ -36,6 +37,7 @@ def _extract_text(data: object) -> str:
         return data
 
     raise ValueError(f"Unexpected output type: {type(data).__name__}")
+
 
 def parse_agent_output(input_path: str, output_path: str) -> None:
     file_size = os.path.getsize(input_path)
