@@ -13,4 +13,4 @@ Usa esta skill cuando el usuario requiera una revisión técnica profunda, una e
 
 ## Seguridad
 - No compartas secretos de entorno.
-- El script de Python requiere una API KEY de Google en la variable `GOOGLE_API_KEY`.
+- El sistema utiliza la autenticación nativa de **Gemini CLI**, por lo que no es necesario configurar API Keys adicionales para el funcionamiento básico de la skill.
