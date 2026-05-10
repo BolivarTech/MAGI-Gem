@@ -47,10 +47,10 @@ The key insight is that **disagreement between agents is a feature, not a failur
 
 ### Official Method (Recommended)
 
-Install the extension directly from the official repository:
+Install the extension directly from the official repository with auto-updates enabled:
 
 ```powershell
-gemini extensions install https://github.com/BolivarTech/MAGI-Gem.git --consent
+gemini extensions install https://github.com/BolivarTech/MAGI-Gem.git --consent --auto-update
 ```
 
 ### Development Method
