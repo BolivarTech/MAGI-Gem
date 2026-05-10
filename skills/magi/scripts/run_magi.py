@@ -110,7 +110,7 @@ async def launch_agent(
     model_id = resolve_model(model)
     cmd = (
         f'gemini --model "{model_id}" '
-        f'--approval-mode plan '
+        f"--approval-mode plan "
         f'-p "Respond following the provided instructions and schema." '
         f"--output-format json"
     )

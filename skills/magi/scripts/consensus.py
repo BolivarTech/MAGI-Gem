@@ -61,15 +61,19 @@ def determine_consensus(agents: list[dict[str, Any]]) -> dict[str, Any]:
     score = sum(VERDICT_WEIGHT[v] for v in verdicts) / num_agents
     has_conditions = "conditional" in verdicts
 
-    # Majority logic: 
+    # Majority logic:
     # For score > 0, majority are those who didn't 'reject'
     # For score <= 0, majority are those who 'reject' (or it's a tie)
     if score > _EPSILON:
-        majority_agents = [a for a in agents if a["verdict"] in ("approve", "conditional")]
+        majority_agents = [
+            a for a in agents if a["verdict"] in ("approve", "conditional")
+        ]
         dissent_agents = [a for a in agents if a["verdict"] == "reject"]
     else:
         majority_agents = [a for a in agents if a["verdict"] == "reject"]
-        dissent_agents = [a for a in agents if a["verdict"] in ("approve", "conditional")]
+        dissent_agents = [
+            a for a in agents if a["verdict"] in ("approve", "conditional")
+        ]
 
     split = (len(majority_agents), len(dissent_agents))
     consensus_text = _consensus_label(score, has_conditions, split)
