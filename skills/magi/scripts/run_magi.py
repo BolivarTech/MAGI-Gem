@@ -106,8 +106,13 @@ async def launch_agent(
     raw_file = os.path.join(output_dir, f"{agent_name}.raw.json")
     parsed_file = os.path.join(output_dir, f"{agent_name}.json")
 
-    # Call 'gemini' with standard json output
-    cmd = 'gemini -p "Respond following the provided instructions and schema." --output-format json -'
+    # Call 'gemini' with standard json output and specific model
+    model_id = resolve_model(model)
+    cmd = (
+        f'gemini --model "{model_id}" '
+        f'-p "Respond following the provided instructions and schema." '
+        f'--output-format json -'
+    )
     proc = await asyncio.create_subprocess_shell(
         cmd,
         stdin=asyncio.subprocess.PIPE,
