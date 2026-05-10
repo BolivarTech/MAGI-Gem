@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": "string",
+      "enum": ["melchior", "balthasar", "caspar"],
+      "description": "The name of the agent providing the verdict."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["approve", "reject", "conditional"],
+      "description": "The final decision of the agent."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Numerical confidence score between 0.0 and 1.0."
+    },
+    "summary": {
+      "type": "string",
+      "description": "A concise executive summary of the analysis."
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Detailed technical reasoning behind the verdict."
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "warning", "info"],
+            "description": "The severity level of the finding."
+          },
+          "title": {
+            "type": "string",
+            "description": "Short descriptive title of the finding."
+          },
+          "detail": {
+            "type": "string",
+            "description": "In-depth explanation and context of the finding."
+          }
+        },
+        "required": ["severity", "title", "detail"]
+      },
+      "description": "List of specific issues or observations found."
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Actionable recommendation for the user."
+    }
+  },
+  "required": [
+    "agent",
+    "verdict",
+    "confidence",
+    "summary",
+    "reasoning",
+    "findings",
+    "recommendation"
+  ]
+}
