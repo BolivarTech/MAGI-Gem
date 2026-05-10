@@ -1,8 +1,19 @@
 import json
 import os
+import re
 
 # centralize size limit here too
 MAX_INPUT_FILE_SIZE = 10 * 1024 * 1024
+
+_FENCE_START = re.compile(r"^```(?:json)?\s*\n?", re.IGNORECASE)
+_FENCE_END = re.compile(r"\n?```\s*$")
+
+
+def _strip_code_fences(text: str) -> str:
+    text = text.strip()
+    text = _FENCE_START.sub("", text)
+    text = _FENCE_END.sub("", text)
+    return text.strip()
 
 
 def _extract_text(data: object) -> str:
@@ -26,6 +37,7 @@ def parse_agent_output(input_path: str, output_path: str) -> None:
         data = json.load(fh)
 
     text = _extract_text(data)
+    text = _strip_code_fences(text)
 
     # When using Structured Outputs, Gemini might return the object directly
     # or as a string. json.loads handles both if it's already a valid JSON string.
