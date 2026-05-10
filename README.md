@@ -47,33 +47,38 @@ The key insight is that **disagreement between agents is a feature, not a failur
 
 ### Official Method (Recommended)
 
-Install directly from GitHub to receive automatic updates:
+Install the extension directly from the official repository:
 
 ```powershell
-gemini extensions install https://github.com/BolivarTech/MAGI-Gem --auto-update
+gemini extensions install https://github.com/BolivarTech/MAGI-Gem.git --consent
 ```
 
 ### Development Method
 
-If you want to contribute or modify the extension, link it locally so changes are reflected immediately:
+If you want to contribute or modify the extension:
 
 ```powershell
 git clone https://github.com/BolivarTech/MAGI-Gem.git
 cd MAGI-Gem
-gemini extensions link .
+gemini extensions install . --consent
 ```
 
 ---
 
 ## Updating
 
-If you installed via the **Official Method** with `--auto-update`, the Gemini CLI will manage updates for you.
+To update the extension to the latest version (e.g., v0.1.9) from the official repository:
 
-If you are using the **Development Method**, simply pull the latest changes:
+```powershell
+gemini extensions update magi
+```
+
+If you are using the **Development Method**, just pull the latest changes and reinstall:
 ```powershell
 git pull origin main
+gemini extensions uninstall magi
+gemini extensions install . --consent
 ```
-No re-installation is required after a `pull` if you used `gemini extensions link`.
 
 ---
 
