@@ -1,7 +1,7 @@
 .PHONY: test lint format typecheck verify
 
 test:
-	python -m pytest tests/ -v
+	python -m pytest skills/magi/tests/ -v
 
 lint:
 	python -m ruff check .
