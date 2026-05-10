@@ -55,15 +55,15 @@ If the user provided files, include their contents (or relevant excerpts) in the
 
 ### Step 3: Launch the three agents
 
-**Model selection:** The default model for all agents is **opus** (mapped to gemini-1.5-pro).
-Valid short names: `opus`, `sonnet`, `haiku`. If the user explicitly requests
-a different model (e.g., "usa sonnet", "use flash"), use that short name.
+**Model selection:** The default model for all agents is **pro** (mapped to gemini-3-flash-preview).
+Valid short names: `pro`, `flash`, `flash-lite`. If the user explicitly requests
+a different model (e.g., "use flash", "use flash-lite"), use that short name.
 
 **Parallel mode (preferred):** Use the `run_shell_command` tool to execute the Python orchestrator.
 The orchestrator launches all three agents in parallel, applies timeouts, validates
 outputs using a JSON schema, and runs synthesis automatically:
 
-    python skills/magi/scripts/run_magi.py <mode> <input_file_or_text> [--model opus] [--timeout 900]
+    python skills/magi/scripts/run_magi.py <mode> <input_file_or_text> [--model pro] [--timeout 900]
 
 The orchestrator handles everything: agent launching, schema-driven output parsing,
 failure alerting, consensus synthesis, and report generation.

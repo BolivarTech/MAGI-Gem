@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Julian Bolivar
-# Version: 1.1.1
+# Version: 0.1.8
 # Date: 2026-05-10
 """MAGI model registry for Gemini.
 
@@ -14,9 +14,9 @@ from types import MappingProxyType
 from typing import Mapping
 
 _MODEL_IDS_MUTABLE: dict[str, str] = {
-    "pro": "gemini-1.5-pro",
-    "flash": "gemini-2.0-flash",
-    "flash-lite": "gemini-1.5-flash",
+    "pro": "gemini-3-flash-preview",
+    "flash": "gemini-2.5-flash-lite",
+    "flash-lite": "gemini-2.5-flash-lite",
 }
 
 #: Read-only view of the short-name → Gemini model-ID mapping.

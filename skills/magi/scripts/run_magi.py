@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Ported MAGI Orchestrator for Gemini CLI v0.0.1
+# Ported MAGI Orchestrator for Gemini CLI v0.1.8
 from __future__ import annotations
 
 import argparse
