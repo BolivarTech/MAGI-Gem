@@ -1,9 +1,0 @@
-[project]
-name = "magi"
-version = "1.0.0"
-requires-python = ">= 3.9"
-description = "MAGI multi-perspective analysis for Gemini CLI"
-authors = [{name = "Julian Bolivar"}]
-
-[project.optional-dependencies]
-dev = ["pytest", "pytest-asyncio"]
