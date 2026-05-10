@@ -1,7 +1,10 @@
 # MAGI — Multi-Perspective Analysis Extension for Gemini CLI
 
+[![Verify](https://github.com/BolivarTech/MAGI-Gem/actions/workflows/verify.yml/badge.svg)](https://github.com/BolivarTech/MAGI-Gem/actions/workflows/verify.yml)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
+[![Tests](https://img.shields.io/badge/tests-16%20passing-brightgreen.svg)](#tests)
+[![Ruff](https://img.shields.io/badge/linter-ruff-orange.svg)](https://docs.astral.sh/ruff/)
+[![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
 
 A Gemini CLI extension that implements a **multi-perspective analysis system** inspired by the [MAGI supercomputers](https://evangelion.fandom.com/wiki/Magi) from *Neon Genesis Evangelion*.
 
