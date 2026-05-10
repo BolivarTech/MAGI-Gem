@@ -240,7 +240,7 @@ async def run_orchestrator(
         raise RuntimeError(f"Only {len(successful)} agent(s) succeeded.")
 
     consensus = determine_consensus(successful)
-    report = {"agents": successful, "consensus": consensus}
+    report: dict[str, Any] = {"agents": successful, "consensus": consensus}
     if failed:
         report["degraded"] = True
         report["failed_agents"] = failed

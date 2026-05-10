@@ -1,10 +1,12 @@
 import os
 import time
 
+from typing import Optional
+
 MAGI_DIR_PREFIX = "magi-run-"
 
 
-def create_output_dir(requested_dir: str = None) -> str:
+def create_output_dir(requested_dir: Optional[str] = None) -> str:
     if requested_dir:
         os.makedirs(requested_dir, exist_ok=True)
         return requested_dir
