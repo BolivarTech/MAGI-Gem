@@ -87,10 +87,12 @@ def determine_consensus(agents: list[dict[str, Any]]) -> dict[str, Any]:
 
     # New Confidence Formula:
     # weight_factor = (abs(score) + 1) / 2
-    # base_confidence = sum(majority_confidence) / num_agents
+    # base_confidence = sum(majority_confidence) / len(majority_agents)
     # confidence = base_confidence * weight_factor
     weight_factor = (abs(score) + 1) / 2
-    base_confidence = sum(a["confidence"] for a in majority_agents) / num_agents
+    base_confidence = sum(a["confidence"] for a in majority_agents) / len(
+        majority_agents
+    )
     confidence = float(round(base_confidence * weight_factor, 2))
 
     return {

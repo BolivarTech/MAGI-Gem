@@ -1,6 +1,6 @@
 {
   "name": "magi",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "MAGI Multi-Perspective Analysis for Gemini CLI",
   "author": "BolivarTech",
   "skills": ["skills/magi"],

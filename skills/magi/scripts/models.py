@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Julian Bolivar
-# Version: 0.1.8
+# Version: 0.1.9
 # Date: 2026-05-10
 """MAGI model registry for Gemini.
 

@@ -95,6 +95,20 @@ def load_agent_output(filepath: str) -> dict[str, Any]:
         cleaned = clean_title(finding["title"])
         if not cleaned:
             raise ValidationError(f"Finding {idx} empty title.", filepath)
+        if len(cleaned) > _MAX_TITLE_LENGTH:
+            raise ValidationError(f"Finding {idx} title too long.", filepath)
         finding["title"] = cleaned
 
-    return dict(data)
+        if len(finding["detail"]) > _MAX_DETAIL_LENGTH:
+            raise ValidationError(f"Finding {idx} detail too long.", filepath)
+
+    # Return only the expected keys to satisfy tests and keep data clean
+    return {
+        "agent": data["agent"],
+        "verdict": data["verdict"],
+        "confidence": data["confidence"],
+        "summary": data["summary"],
+        "reasoning": data["reasoning"],
+        "findings": data["findings"],
+        "recommendation": data["recommendation"],
+    }
