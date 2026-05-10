@@ -82,7 +82,7 @@ async def launch_agent(
     prompt: str,
     output_dir: str,
     timeout: int,
-    model: str = "opus",
+    model: str = "pro",
 ) -> dict[str, Any]:
     system_prompt_file = os.path.join(agents_dir, f"{agent_name}.md")
     with open(system_prompt_file, "r", encoding="utf-8") as f:
@@ -110,8 +110,9 @@ async def launch_agent(
     model_id = resolve_model(model)
     cmd = (
         f'gemini --model "{model_id}" '
+        f'--approval-mode plan '
         f'-p "Respond following the provided instructions and schema." '
-        f"--output-format json -"
+        f"--output-format json"
     )
     proc = await asyncio.create_subprocess_shell(
         cmd,
@@ -195,7 +196,7 @@ async def run_orchestrator(
     prompt: str,
     output_dir: str,
     timeout: int,
-    model: str = "opus",
+    model: str = "pro",
     *,
     show_status: bool = True,
 ) -> dict[str, Any]:

@@ -22,36 +22,6 @@ def _dedup_key(title: str) -> str:
     return unicodedata.normalize("NFKC", clean_title(title)).casefold()
 
 
-def _consensus_short_verdict(score: float, has_conditions: bool) -> str:
-    if abs(score - 1.0) < _EPSILON:
-        return "approve"
-    if abs(score - (-1.0)) < _EPSILON:
-        return "reject"
-    is_positive = score > _EPSILON
-    if is_positive and has_conditions:
-        return "conditional"
-    if is_positive:
-        return "approve"
-    return "reject"
-
-
-def _format_consensus_label(
-    score: float, consensus_short: str, split: tuple[int, int]
-) -> str:
-    if abs(score - 1.0) < _EPSILON:
-        return "STRONG GO"
-    if abs(score - (-1.0)) < _EPSILON:
-        return "STRONG NO-GO"
-    if abs(score) < _EPSILON:
-        return "HOLD -- TIE"
-    split_label = f"({split[0]}-{split[1]})"
-    if consensus_short == "conditional":
-        return f"GO WITH CAVEATS {split_label}"
-    if consensus_short == "approve":
-        return f"GO {split_label}"
-    return f"HOLD {split_label}"
-
-
 def _deduplicate_findings(agents: list[dict[str, Any]]) -> list[dict[str, Any]]:
     findings_by_title: dict[str, dict[str, Any]] = {}
     for a in agents:
@@ -70,13 +40,19 @@ def _deduplicate_findings(agents: list[dict[str, Any]]) -> list[dict[str, Any]]:
     )
 
 
-def _compute_confidence(
-    majority_agents: list[dict[str, Any]], num_agents: int, score: float
-) -> float:
-    majority_conf: float = sum(a["confidence"] for a in majority_agents)
-    base_confidence = majority_conf / num_agents
-    weight_factor = (abs(score) + 1) / 2
-    return float(round(max(0.0, min(1.0, base_confidence * weight_factor)), 2))
+def _consensus_label(score: float, has_conditions: bool, split: tuple[int, int]) -> str:
+    if abs(score - 1.0) < _EPSILON:
+        return "STRONG GO"
+    if abs(score - (-1.0)) < _EPSILON:
+        return "STRONG NO-GO"
+
+    split_label = f"({split[0]}-{split[1]})"
+    if score > _EPSILON:
+        if has_conditions:
+            return f"GO WITH CAVEATS {split_label}"
+        return f"GO {split_label}"
+
+    return f"HOLD {split_label}"
 
 
 def determine_consensus(agents: list[dict[str, Any]]) -> dict[str, Any]:
@@ -84,33 +60,40 @@ def determine_consensus(agents: list[dict[str, Any]]) -> dict[str, Any]:
     verdicts = [a["verdict"] for a in agents]
     score = sum(VERDICT_WEIGHT[v] for v in verdicts) / num_agents
     has_conditions = "conditional" in verdicts
-    consensus_short = _consensus_short_verdict(score, has_conditions)
-    consensus_side = "reject" if consensus_short == "reject" else "approve"
-    majority_agents = []
-    dissent_agents = []
-    for a in agents:
-        eff = "approve" if a["verdict"] == "conditional" else a["verdict"]
-        if eff == consensus_side:
-            majority_agents.append(a)
-        else:
-            dissent_agents.append(a)
+
+    # Majority logic: 
+    # For score > 0, majority are those who didn't 'reject'
+    # For score <= 0, majority are those who 'reject' (or it's a tie)
+    if score > _EPSILON:
+        majority_agents = [a for a in agents if a["verdict"] in ("approve", "conditional")]
+        dissent_agents = [a for a in agents if a["verdict"] == "reject"]
+    else:
+        majority_agents = [a for a in agents if a["verdict"] == "reject"]
+        dissent_agents = [a for a in agents if a["verdict"] in ("approve", "conditional")]
+
     split = (len(majority_agents), len(dissent_agents))
-    consensus = _format_consensus_label(score, consensus_short, split)
+    consensus_text = _consensus_label(score, has_conditions, split)
+
     all_findings = _deduplicate_findings(agents)
     conditions = [
         {"agent": a["agent"], "condition": a["summary"]}
         for a in agents
         if a["verdict"] == "conditional"
     ]
-    confidence = _compute_confidence(majority_agents, num_agents, score)
+
+    # New Confidence Formula:
+    # weight_factor = (abs(score) + 1) / 2
+    # base_confidence = sum(majority_confidence) / num_agents
+    # confidence = base_confidence * weight_factor
+    weight_factor = (abs(score) + 1) / 2
+    base_confidence = sum(a["confidence"] for a in majority_agents) / num_agents
+    confidence = float(round(base_confidence * weight_factor, 2))
+
     return {
-        "consensus": consensus,
-        "consensus_verdict": consensus_short,
+        "consensus": consensus_text,
+        "score": score,
         "confidence": confidence,
         "votes": {a["agent"]: a["verdict"] for a in agents},
-        "majority_summary": " | ".join(
-            f"{a['agent'].capitalize()}: {a['summary']}" for a in majority_agents
-        ),
         "dissent": [
             {"agent": a["agent"], "summary": a["summary"], "reasoning": a["reasoning"]}
             for a in dissent_agents

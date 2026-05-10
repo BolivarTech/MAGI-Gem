@@ -55,6 +55,7 @@ def format_banner(agents: list[dict[str, Any]], consensus: dict[str, Any]) -> st
         fitted = _fit_content(content, _BANNER_INNER, preserve_suffix=verdict_suffix)
         lines.append("|" + fitted.ljust(_BANNER_INNER) + "|")
     lines.append(border)
+    # The consensus label from consensus.py already includes the split (N-M)
     cons_content = f"  CONSENSUS: {consensus['consensus']}"
     fitted_cons = _fit_content(cons_content, _BANNER_INNER)
     lines.append("|" + fitted_cons.ljust(_BANNER_INNER) + "|")
@@ -77,18 +78,25 @@ def format_report(agents: list[dict[str, Any]], consensus: dict[str, Any]) -> st
         for f in consensus["findings"]:
             sections.append(_format_finding_line(f))
         sections.append("")
+
     if consensus["dissent"]:
         sections.append("## Dissenting Opinion")
         for d in consensus["dissent"]:
             name, title = _agent_title(d["agent"])
             sections.append(f"**{name} ({title})**: {d['summary']}")
+            # Add reasoning if present and not redundant
+            if d.get("reasoning"):
+                # Simple heuristic: if summary is short and reasoning exists, add reasoning
+                sections.append(f"\n{d['reasoning']}")
         sections.append("")
+
     if consensus["conditions"]:
         sections.append("## Conditions for Approval")
         for c in consensus["conditions"]:
             name, _ = _agent_title(c["agent"])
             sections.append(f"- **{name}**: {c['condition']}")
         sections.append("")
+
     sections.append("## Recommended Actions")
     for agent_name, rec in consensus["recommendations"].items():
         name, title = _agent_title(agent_name)

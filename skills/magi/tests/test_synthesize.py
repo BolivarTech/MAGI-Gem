@@ -32,8 +32,8 @@ def test_consensus_unanimous_approve() -> None:
         },
     ]
     result = determine_consensus(agents)
-    assert result["consensus_verdict"] == "approve"
-    assert "STRONG GO" in result["consensus"]
+    assert result["score"] == 1.0
+    assert result["consensus"] == "STRONG GO"
 
 
 def test_consensus_majority_reject() -> None:
@@ -67,5 +67,5 @@ def test_consensus_majority_reject() -> None:
         },
     ]
     result = determine_consensus(agents)
-    assert result["consensus_verdict"] == "reject"
+    assert result["score"] < 0
     assert "HOLD" in result["consensus"]

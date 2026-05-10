@@ -28,6 +28,21 @@ def _extract_text(data: object) -> str:
     raise ValueError(f"Unexpected output type: {type(data).__name__}")
 
 
+def _extract_json_block(text: str) -> str:
+    # 1. Try to find content between triple backticks
+    match = re.search(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL | re.IGNORECASE)
+    if match:
+        return match.group(1).strip()
+
+    # 2. If no fences, try to find the first '{' and last '}'
+    start = text.find("{")
+    end = text.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        return text[start : end + 1].strip()
+
+    return text.strip()
+
+
 def parse_agent_output(input_path: str, output_path: str) -> None:
     file_size = os.path.getsize(input_path)
     if file_size > MAX_INPUT_FILE_SIZE:
@@ -37,18 +52,20 @@ def parse_agent_output(input_path: str, output_path: str) -> None:
         data = json.load(fh)
 
     text = _extract_text(data)
-    text = _strip_code_fences(text)
+    json_text = _extract_json_block(text)
 
-    # When using Structured Outputs, Gemini might return the object directly
-    # or as a string. json.loads handles both if it's already a valid JSON string.
     try:
-        parsed = json.loads(text)
+        parsed = json.loads(json_text)
     except (json.JSONDecodeError, TypeError):
-        # If it's already a dict (depending on CLI version/behavior with schema)
-        if isinstance(text, dict):
-            parsed = text
-        else:
-            raise
+        # Fallback to the original text if extraction didn't help
+        try:
+            parsed = json.loads(text)
+        except (json.JSONDecodeError, TypeError):
+            # If it's already a dict (depending on CLI behavior)
+            if isinstance(text, dict):
+                parsed = text
+            else:
+                raise
 
     with open(output_path, "w", encoding="utf-8") as fh:
         json.dump(parsed, fh, indent=2)

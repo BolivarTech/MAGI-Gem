@@ -61,8 +61,8 @@ class TestParseArgs:
     def test_explicit_model_overrides_mode_default(self) -> None:
         from run_magi import parse_args
 
-        args = parse_args(["analysis", "input.txt", "--model", "sonnet"])
-        assert args.model == "sonnet"
+        args = parse_args(["analysis", "input.txt", "--model", "flash"])
+        assert args.model == "flash"
 
     def test_invalid_model_rejected(self) -> None:
         from run_magi import parse_args
@@ -108,7 +108,7 @@ class TestRunOrchestrator:
             prompt: str,
             output_dir: str,
             timeout: int,
-            model: str = "opus",
+            model: str = "pro",
         ) -> Dict[str, Any]:
             return agent_results[agent_name]
 
@@ -133,7 +133,7 @@ class TestRunOrchestrator:
             prompt: str,
             output_dir: str,
             timeout: int,
-            model: str = "opus",
+            model: str = "pro",
         ) -> Dict[str, Any]:
             if agent_name == "caspar":
                 raise TimeoutError(f"Agent {agent_name} timed out")

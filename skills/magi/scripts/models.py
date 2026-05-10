@@ -14,9 +14,9 @@ from types import MappingProxyType
 from typing import Mapping
 
 _MODEL_IDS_MUTABLE: dict[str, str] = {
-    "opus": "gemini-1.5-pro-latest",
-    "sonnet": "gemini-1.5-flash-latest",
-    "haiku": "gemini-1.5-flash-8b-latest",
+    "pro": "gemini-1.5-pro",
+    "flash": "gemini-2.0-flash",
+    "flash-lite": "gemini-1.5-flash",
 }
 
 #: Read-only view of the short-name → Gemini model-ID mapping.
@@ -26,9 +26,9 @@ MODEL_IDS: Mapping[str, str] = MappingProxyType(_MODEL_IDS_MUTABLE)
 VALID_MODELS: tuple[str, ...] = tuple(MODEL_IDS.keys())
 
 _MODE_DEFAULTS_MUTABLE: dict[str, str] = {
-    "code-review": "opus",
-    "design": "opus",
-    "analysis": "opus",
+    "code-review": "pro",
+    "design": "pro",
+    "analysis": "pro",
 }
 MODE_DEFAULT_MODELS: Mapping[str, str] = MappingProxyType(_MODE_DEFAULTS_MUTABLE)
 
