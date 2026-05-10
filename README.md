@@ -45,41 +45,35 @@ The key insight is that **disagreement between agents is a feature, not a failur
 
 ## Installation
 
-### From GitHub
+### Official Method (Recommended)
 
-```bash
-# 1. Clone the repository
+Install directly from GitHub to receive automatic updates:
+
+```powershell
+gemini extensions install https://github.com/BolivarTech/MAGI-Gem --auto-update
+```
+
+### Development Method
+
+If you want to contribute or modify the extension, link it locally so changes are reflected immediately:
+
+```powershell
 git clone https://github.com/BolivarTech/MAGI-Gem.git
-
-# 2. Install the extension
-# Option A: Only for the current workspace
-gemini skills install ./MAGI-Gem --scope workspace
-
-# Option B: Globally for all projects (User scope)
-gemini skills install ./MAGI-Gem --scope user
-
-# 3. Reload Gemini CLI skills
-# Inside your interactive gemini session:
-/skills reload
+cd MAGI-Gem
+gemini extensions link .
 ```
 
 ---
 
-## Updating the Skill
+## Updating
 
-If you pull new changes from the repository or modify the scripts/prompts, you need to tell Gemini CLI to reload the skill to apply the updates.
+If you installed via the **Official Method** with `--auto-update`, the Gemini CLI will manage updates for you.
 
-### 1. Reload Instructions
-Inside your interactive Gemini CLI session, simply run:
-```bash
-/skills reload
+If you are using the **Development Method**, simply pull the latest changes:
+```powershell
+git pull origin main
 ```
-
-### 2. Verify Installation
-To confirm the skill is active and recognize the latest version:
-```bash
-/skills list
-```
+No re-installation is required after a `pull` if you used `gemini extensions link`.
 
 ---
 
