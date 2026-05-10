@@ -55,7 +55,7 @@ If the user provided files, include their contents (or relevant excerpts) in the
 
 ### Step 3: Launch the three agents
 
-**Model selection:** The default model for all agents is **pro** (mapped to gemini-3-flash-preview).
+**Model selection:** The default model for all agents is **pro** (mapped to gemini-2.5-pro).
 Valid short names: `pro`, `flash`, `flash-lite`. If the user explicitly requests
 a different model (e.g., "use flash", "use flash-lite"), use that short name.
 
