@@ -58,6 +58,24 @@ gemini skills install ./MAGI-Gem --scope workspace
 
 ---
 
+## Updating the Skill
+
+If you pull new changes from the repository or modify the scripts/prompts, you need to tell Gemini CLI to reload the skill to apply the updates.
+
+### 1. Reload Instructions
+Inside your interactive Gemini CLI session, simply run:
+```bash
+/skills reload
+```
+
+### 2. Verify Installation
+To confirm the skill is active and recognize the latest version:
+```bash
+/skills list
+```
+
+---
+
 ## Usage
 
 Invoke with `gemini magi` or trigger the skill naturally:
