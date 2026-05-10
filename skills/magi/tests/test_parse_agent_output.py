@@ -1,8 +1,9 @@
 import json
+from pathlib import Path
 from parse_agent_output import parse_agent_output
 
 
-def test_parse_gemini_wrapped_json(tmp_path):
+def test_parse_gemini_wrapped_json(tmp_path: Path) -> None:
     """Test parsing the new Gemini CLI output format."""
     raw_json = {
         "response": '```json\n{"agent": "melchior", "verdict": "approve", "confidence": 1.0, "summary": "OK", "reasoning": "...", "findings": [], "recommendation": "..."}\n```',
@@ -22,7 +23,7 @@ def test_parse_gemini_wrapped_json(tmp_path):
     assert data["verdict"] == "approve"
 
 
-def test_parse_raw_unfenced_json(tmp_path):
+def test_parse_raw_unfenced_json(tmp_path: Path) -> None:
     """Test parsing if Gemini returns JSON without fences."""
     raw_json = {
         "response": '{"agent": "balthasar", "verdict": "reject", "confidence": 0.5, "summary": "No", "reasoning": "...", "findings": [], "recommendation": "..."}',

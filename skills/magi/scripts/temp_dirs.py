@@ -17,6 +17,6 @@ def create_output_dir(requested_dir: Optional[str] = None) -> str:
     return os.path.abspath(new_dir)
 
 
-def cleanup_old_runs(keep: int):
+def cleanup_old_runs(keep: int) -> None:
     # Minimal cleanup for now
     pass

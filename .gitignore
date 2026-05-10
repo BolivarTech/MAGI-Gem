@@ -1,6 +1,13 @@
 # AI Context
 GEMINI.md
 
+# IDEs
+.vscode/
+.idea/
+
+# Gemini CLI
+.gemini/
+
 # Environment & Logs
 .env
 .env.*

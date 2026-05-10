@@ -1,7 +1,7 @@
 from consensus import determine_consensus
 
 
-def test_consensus_unanimous_approve():
+def test_consensus_unanimous_approve() -> None:
     agents = [
         {
             "agent": "melchior",
@@ -36,7 +36,7 @@ def test_consensus_unanimous_approve():
     assert "STRONG GO" in result["consensus"]
 
 
-def test_consensus_majority_reject():
+def test_consensus_majority_reject() -> None:
     agents = [
         {
             "agent": "melchior",
